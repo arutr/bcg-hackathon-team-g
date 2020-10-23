@@ -1,19 +1,18 @@
-import { Handler } from 'aws-lambda';
+import { Handler } from "aws-lambda";
 
-export const hello: Handler = (event: any) => {
+export const match: Handler = async (event: any) => {
+  console.log(event);
   const response = {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
-        input: event,
+        response_type: "ephemeral",
+        text: event.body.text,
       },
       null,
       2
     ),
   };
 
-  return new Promise((resolve) => {
-    resolve(response)
-  })
-}
+  return response;
+};
