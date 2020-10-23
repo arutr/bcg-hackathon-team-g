@@ -7,7 +7,7 @@ export const match: Handler = async (event: any) => {
     body: JSON.stringify(
       {
         response_type: "ephemeral",
-        text: event.body.text,
+        text: "I will match you soon...",
       },
       null,
       2
