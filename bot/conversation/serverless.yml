@@ -1,18 +1,22 @@
-org: serverlessinc
-app: aws-node-rest-api-typescript
+app: aws-slack-matchmaking-bot
 service: conversation
 
 provider:
   name: aws
   runtime: nodejs12.x
+  region: eu-central-1
 
 functions:
   hello:
-    handler: handler.hello
+    handler: handler.match
     events:
       - http:
-          path: /
-          method: get
+          path: /match
+          method: post
 
 plugins:
   - serverless-plugin-typescript
+
+package:
+  exclude:
+    - node_modules/**
