@@ -13,6 +13,8 @@ functions:
       - http:
           path: /match
           method: post
+  answer:
+    handler: handler.answer
 
 plugins:
   - serverless-plugin-typescript

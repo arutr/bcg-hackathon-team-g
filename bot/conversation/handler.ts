@@ -16,3 +16,18 @@ export const match: Handler = async (event: any) => {
 
   return response;
 };
+
+export const answer: Handler = async (event: any) => {
+  console.log(event);
+  let lambda_response = {
+    dialogAction: {
+      type: "Close",
+      fulfillmentState: "Fulfilled",
+      message: {
+        contentType: "PlainText",
+        content: "https://media.giphy.com/media/Ov5NiLVXT8JEc/giphy.gif",
+      },
+    },
+  };
+  return lambda_response;
+};
