@@ -1,0 +1,53 @@
+app: aws-slack-matchmaking-bot
+service: matchmaking
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: eu-central-1
+  stage: dev
+  logRetentionInDays: 3
+  environment:
+    TABLE: conversation-${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ses:*"
+      Resource:
+        - "*"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.TABLE}"
+
+functions:
+  match:
+    handler: handler.main
+    events:
+      - http:
+          path: /match
+          method: get
+
+resources:
+  Resources:
+    AnswersDynamoDbTable:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.TABLE}
+    events:
+      - http:
+          path: /match
+          method: get
