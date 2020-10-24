@@ -45,7 +45,7 @@ const botLogic = async (event) => {
   let finalAnswer = "";
   if (currIndexAnswer === 0) {
     await dbConnector.createForm(userId);
-    const welcomeWords = `Hello! You are talking with matchmaking bot. I will help you to best possible partner for coffee breaks. I am going to send you images. Please type y if you like the image and n if you do not like it\n${currQuestion.link}`;
+    const welcomeWords = `Hello! You are talking with matchmaking bot. I will help you to best possible partner for coffee breaks. I am going to send you images. Please type 'yes' if you like the image and 'no' if you do not like it\n${currQuestion.link}`;
     finalAnswer = welcomeWords;
   } else {
     finalAnswer = currQuestion.link;

@@ -30,7 +30,7 @@ export default class Questions {
       {
         shortName: ":m",
         name: "mountains",
-        link: "https://media.giphy.com/media/9r6FZQ5FI8CIYUpLEg/giphy.gif",
+        link: "https://media.giphy.com/media/3o84sypMl9QoaJIzdu/giphy.gif",
         num: 3,
       },
       {
@@ -60,7 +60,7 @@ export default class Questions {
       {
         shortName: ":p",
         name: "pizza",
-        link: "https://media.giphy.com/media/Q73Bb4tlFNtJlmagIk/giphy.gif",
+        link: "https://media.giphy.com/media/jn2iXu2HRpMuovBrrV/giphy.gif",
         num: 8,
       },
       {
