@@ -56,7 +56,7 @@ export default class DynamoDbConnector {
       });
   }
 
-  public async getCurrentAnswer(id: string): Promise<number> {
+  public async getCurrentAnswerIndex(id: string): Promise<number> {
     const params = {
       TableName: this.tableName,
       Key: {
@@ -84,6 +84,24 @@ export default class DynamoDbConnector {
         console.error("DB query failed: return currAnswer=0");
         return 0;
       });
+  }
+
+  public async getUserRow(id: string): Promise<any> {
+    const params = {
+      TableName: this.tableName,
+      Key: {
+        id: id,
+      },
+    };
+    return this._client
+      .get(params, (error: AWSError, data: GetItemOutput) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        return data.Item;
+      })
+      .promise();
   }
 
   public async updateAnswer(
@@ -114,6 +132,26 @@ export default class DynamoDbConnector {
         }
       });
     }
+  }
+
+  public async updateTopics(id: string, topics: string[]): Promise<void> {
+    const params = {
+      TableName: this.tableName,
+      Key: {
+        id: id,
+      },
+      UpdateExpression: `set topics = :t`,
+      ExpressionAttributeValues: {
+        ":t": JSON.stringify(topics),
+      },
+      ReturnValues: "UPDATED_NEW",
+    };
+    this._client.update(params, (error, data) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+    });
   }
 
   public async increaseCounter(id: string, currAnswer: number): Promise<void> {

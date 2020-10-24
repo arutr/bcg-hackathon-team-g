@@ -35,10 +35,20 @@ const botLogic = async (event) => {
       ? event.userId.split(":")[2]
       : event.userId;
 
-  let currIndexAnswer = await dbConnector.getCurrentAnswer(userId);
+  let currIndexAnswer = await dbConnector.getCurrentAnswerIndex(userId);
   const currQuestion: FormQuestion = formQuestions[currIndexAnswer];
   const finalWords = "You are done! Thank you for the responses.";
   if (currIndexAnswer >= formQuestions.length) {
+    const userData = await dbConnector.getUserRow(userId);
+    const user = userData.Item;
+    const topics = [];
+    for (const key in user) {
+      if (key !== "id" && key !== "currentAnswer" && user[key] === "yes") {
+        topics.push(key);
+      }
+      console.log(topics);
+      await dbConnector.updateTopics(userId, topics);
+    }
     return getAnswer(finalWords);
   }
 
